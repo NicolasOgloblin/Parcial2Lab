@@ -9,9 +9,9 @@
 
 using namespace std;
 
+#include "Prototipos.h"
 #include "Funciones.h"
 #include "Clases.h"
-#include "Prototipos.h"
 #include "Reportes.h"
 
 

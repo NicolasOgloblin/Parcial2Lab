@@ -2,8 +2,6 @@
 #define PROTOTIPOS_H_INCLUDED
 
 #include "Clases.h"
-#include "Funciones.h"
-#include "Reportes.h"
 
 ///  ----------------------------------------------------  PROTOTIPOS  ----------------------------------------------------  ///
 

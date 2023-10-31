@@ -1,9 +1,6 @@
 #ifndef REPORTES_H_INCLUDED
 #define REPORTES_H_INCLUDED
 
-#include "Clases.h"
-#include "Funciones.h"
-#include "Prototipos.h"
 
 void subMenuReportes(){
 

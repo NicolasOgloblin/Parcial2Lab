@@ -2,16 +2,7 @@
 #define CLASES_H_INCLUDED
 
 #include <ctime>
-#include "Funciones.h"
-#include "Prototipos.h"
-#include "Reportes.h"
-
-///Prototipo provisorio hasta solucionar problema. No compila si no pongo el prototipo acá, mas allá de hacer el include de los prototipos en donde está incluido el cargarCadena.///
-
 void cargarCadena(char *, int);
-
-///----------------------------///
-
 
 ///  ----------------------------------------------------  CLASS EQUIPOS  ----------------------------------------------------  ///
 
@@ -85,6 +76,7 @@ int contarRegistrosEquipos() {
 int Equipos::contEquipos = 0;
 
 void Equipos::Cargar(){
+
      ID = contarRegistrosEquipos()+1;
      cout <<"NOMBRE: ";
     cargarCadena(nombre, 29);
@@ -102,29 +94,29 @@ void Equipos::Mostrar(){
     cout << nombre << endl;
     cout <<"NIVEL: ";
     cout << nivel << endl;}
-
-void Equipos::contarregistrosEquipos(){
+/*
+void Equipos::contarregistrosEquipos(){ //vreo que hay que eliminarla. Era para comprobar que compile declarando un reg de Equipo.
     Equipos reg;
-}
+}*/
 
 ///  ----------------------------------------------------  CLASS TIPO DE DEPORTE  ----------------------------------------------------  ///
 
 class TipodeDeporte {
 
-private:
-    int IDTipo;
-    char nombre [30];
-    int nivelDificultad;
-    bool estado = true;
-    static int contTiposDeporte;
+    private:
+        int IDTipo;
+        char nombre [30];
+        int nivelDificultad;
+        bool estado = true;
+        static int contTiposDeporte;
 
-public:
-    TipodeDeporte ( int id=0, const char *n="Ninguno", int nivel=0, bool e=true){
-         IDTipo=id;
-         strcpy(nombre, n);
-         nivelDificultad=nivel;
-         estado=e;
-    }
+    public:
+        TipodeDeporte ( int id=0, const char *n="Ninguno", int nivel=0, bool e=true){
+             IDTipo=id;
+             strcpy(nombre, n);
+             nivelDificultad=nivel;
+             estado=e;
+        }
 
     void Cargar();
     void Mostrar();
@@ -210,22 +202,22 @@ void TipodeDeporte::Mostrar(){
 
 class Deporte {
 
-private:
-    int ID;
-    char nombre [30];
-    int tipo;
-    int anio;
-    bool estado = true;
-    static int contArchivos;
+    private:
+        int ID;
+        char nombre [30];
+        int tipo;
+        int anio;
+        bool estado = true;
+        static int contArchivos;
 
-public:
-    Deporte ( int id=0, const char *n="Ninguno", int t=0, int a=1800, bool e=true){
-         ID=id;
-         strcpy(nombre, n);
-         tipo=t;
-         anio=a;
-         estado=e;
-    }
+    public:
+        Deporte ( int id=0, const char *n="Ninguno", int t=0, int a=1800, bool e=true){
+             ID=id;
+             strcpy(nombre, n);
+             tipo=t;
+             anio=a;
+             estado=e;
+        }
 
     void Cargar();
     void Mostrar();
@@ -328,33 +320,34 @@ void Deporte::Mostrar(){
 
 class archivoDeporte{
 
-private:
-    char nombre [30];
-public:
-    archivoDeporte (const char *n){
-        strcpy(nombre,n);
-    }
-    const char *getNombre (){return nombre;}
-
-    bool listarRegistros();
-    bool buscarDeporte(int);
-
-    bool agregaRegistro(Deporte reg){
-         FILE *p=fopen(nombre, "ab");
-        if(p==NULL){
-            cout << "Error de archivo."<<endl;
-            fclose(p);
-            return false;
+    private:
+        char nombre [30];
+    public:
+        archivoDeporte (const char *n){
+            strcpy(nombre,n);
         }
-        bool escribio = fwrite(&reg,sizeof reg,1, p );
-        fclose(p);
-        return escribio;
-    }
+        const char *getNombre (){return nombre;}
+
+        bool listarRegistros();
+        bool buscarDeporte(int);
+
+        bool agregaRegistro(Deporte reg){
+             FILE *p=fopen(nombre, "ab");
+            if(p==NULL){
+                cout << "Error de archivo."<<endl;
+                fclose(p);
+                return false;
+            }
+            bool escribio = fwrite(&reg,sizeof reg,1, p );
+            fclose(p);
+            return escribio;
+        }
 
 
 };
 
 bool buscarDeporte(int nroDeporte){
+
         Deporte reg;
         FILE *p;
         p=fopen("Deportes.dat", "rb");
@@ -396,14 +389,14 @@ bool archivoDeporte::listarRegistros(){
 ///  ----------------------------------------------------  CLASS ARCHIVO TIPO DE DEPORTE  ----------------------------------------------------  ///
 class archivoTipodeDeporte{
 
-private:
-    char nombre [30];
-public:
-    archivoTipodeDeporte (const char *n){
-        strcpy(nombre,n);
-    }
-    const char *getNombre (){return nombre;}
+    private:
+        char nombre [30];
+    public:
+        archivoTipodeDeporte (const char *n){
+            strcpy(nombre,n);
+        }
 
+    const char *getNombre (){return nombre;}
     bool listarRegistros();
     bool buscarPorIDTipo(int);
 
@@ -423,6 +416,7 @@ public:
 };
 
 bool archivoTipodeDeporte::buscarPorIDTipo(int id){
+
         TipodeDeporte reg;
         FILE *p;
         p=fopen("TipodeDeporte.dat", "rb");
@@ -441,6 +435,7 @@ bool archivoTipodeDeporte::buscarPorIDTipo(int id){
         fclose(p);
         return false;
 }
+
 //haciendo
 bool archivoTipodeDeporte::listarRegistros(){
 
@@ -463,6 +458,7 @@ bool archivoTipodeDeporte::listarRegistros(){
 
 ///  ----------------------------------------------------  CLASS FECHA  ----------------------------------------------------  ///
 class Fecha{
+
     private:
         int dia, mes, anio;
 
@@ -500,7 +496,7 @@ class Fecha{
             cin>>mes;
             setMesJugador(mes);
 
-}
+        }
 
         void obtenerFechaActual(){
 
@@ -533,9 +529,9 @@ class Fecha{
                 cout << "DIA INCORRECTO. INGRESE NUEVAMENTE ! :";
                 cin>>d;
                 setDiaJugador(d);
-        }
+            }
 
-    }
+        }
         void setMesJugador(int m){
 
             if(m>=1 && m<=12) mes=m;
@@ -543,9 +539,9 @@ class Fecha{
                 cout << "MES INCORRECTO. INGRESE NUEVAMENTE ! :";
                 cin>>m;
                 setMesJugador(m);
-        }
+            }
 
-}
+        }
         void setAnioJugador(int a){
            time_t tiempo = time(nullptr);
             tm *fecha = localtime(&tiempo);
@@ -557,9 +553,9 @@ class Fecha{
                 cout << "ANIO INCORRECTO. INGRESE NUEVAMENTE ! :";
                 cin>>a;
                 setAnioJugador (a);
-        }
+            }
 
-}
+        }
         void setDia(int d){
 
             if(d>=1 && d<=31) dia=d;
@@ -786,13 +782,14 @@ bool Jugadores::Cargar (int d=-1){
         setMatricula (matricula);
         estado=true;
         return true;
-    }else {
-        cout << "No hay registros con ese numero de deporte." << endl;
-        return false;
-     }
+        }else {
+            cout << "No hay registros con ese numero de deporte." << endl;
+            return false;
+    }
 }
 
 void Jugadores::Mostrar (){
+
     if(estado==true){
     Persona::Mostrar();
     cout << "CLAUSTRO: ";
@@ -811,12 +808,14 @@ void Jugadores::Mostrar (){
 ///  ----------------------------------------------------  CLASS ARCHIVO JUGADORES  ----------------------------------------------------  ///
 
 class ArchivoJugadores{
-private:
-    char nombre[30];
-public:
-    ArchivoJugadores(const char *n){
-        strcpy(nombre,n);
-    }
+
+    private:
+        char nombre[30];
+    public:
+        ArchivoJugadores(const char *n){
+            strcpy(nombre,n);
+        }
+
     bool listarRegistrosJ();
     bool grabarRegistroJ(Jugadores);
     Jugadores leerRegistroJ(int pos);
@@ -826,6 +825,7 @@ public:
 };
 
 bool ArchivoJugadores::listarRegistrosJ(){
+
     Jugadores reg;
     FILE *p;
     p=fopen(nombre, "rb");
@@ -841,6 +841,7 @@ bool ArchivoJugadores::listarRegistrosJ(){
 }
 
 bool ArchivoJugadores::grabarRegistroJ(Jugadores reg){
+
     FILE *p;
     p=fopen(nombre,"ab");
     if(p==NULL){
@@ -852,6 +853,7 @@ bool ArchivoJugadores::grabarRegistroJ(Jugadores reg){
 }
 
 Jugadores ArchivoJugadores::leerRegistroJ(int pos){
+
     Jugadores reg;
     reg.setEstado(false);
     FILE *p;
@@ -866,6 +868,7 @@ Jugadores ArchivoJugadores::leerRegistroJ(int pos){
 }
 
 bool ArchivoJugadores::sobreEscribirRegistroJ(Jugadores reg, int pos){
+
     FILE *p;
     p=fopen(nombre, "rb+");
     if(p==NULL){
@@ -878,6 +881,7 @@ bool ArchivoJugadores::sobreEscribirRegistroJ(Jugadores reg, int pos){
 }
 
 int ArchivoJugadores::contarRegistrosJ(){
+
     int cantReg=0;
     FILE *p;
     p=fopen(nombre, "rb");
@@ -892,6 +896,7 @@ int ArchivoJugadores::contarRegistrosJ(){
 }
 
 int ArchivoJugadores::contarRegistrosActivosJ(){
+
     Jugadores reg;
     int cuentaReg=0;
     FILE *p;
@@ -907,8 +912,9 @@ int ArchivoJugadores::contarRegistrosActivosJ(){
 }
 
 ///  ----------------------------------------------------  PUNTO A  ----------------------------------------------------  ///
-
+/* se puede sacar. Era solo para el parcial.
 void puntoA(){
+
     int deporte, cantJugadores=0;
     ArchivoJugadores archi("jugadores.dat");
     Jugadores reg;
@@ -924,17 +930,17 @@ void puntoA(){
     }
     cout<<"CANTIDAD DE JUGADORES "<<cantJugadores<<endl;
   }
-
+*/
 ///  ----------------------------------------------------  CLASS ARCHIVO EQUIPOS  ----------------------------------------------------  ///
 
 class ArchivoEquipos{
 
-private :
-    char nombre[30] ;
-public :
-    ArchivoEquipos(const char *n){
-    strcpy(nombre,n);
-    }
+    private :
+        char nombre[30] ;
+    public :
+        ArchivoEquipos(const char *n){
+        strcpy(nombre,n);
+        }
  const char *getNombre (){return nombre;}
 
     bool agregarEquipos(ArchivoEquipos);
@@ -942,16 +948,15 @@ public :
     bool listarTodos ();
     bool modificarRegistroEquipo (Equipos,int);
     bool eliminarRegistroEquipo();
-    ///
+
     int BuscarPorID(int);
     Equipos leerRegistro(int);
-
-
 
 };
 
 /*
 bool ArchivoEquipos::agregarEquipos(ArchivoEquipos reg){
+
     FILE *p;
     p=fopen(nombre,"ab");
     if(p==NULL){
@@ -963,6 +968,7 @@ bool ArchivoEquipos::agregarEquipos(ArchivoEquipos reg){
 }
 
 Equipos ArchivoEquipos::leerRegistro (int pos){
+
         Equipos reg ;
         FILE *p;
         reg.setID(-1);
@@ -980,6 +986,7 @@ Equipos ArchivoEquipos::leerRegistro (int pos){
 }
 
 bool ArchivoEquipos::listarEquiposPorId (){
+
         int id;
         Equipos reg;
         int aux=0;
@@ -1012,6 +1019,7 @@ bool ArchivoEquipos::listarEquiposPorId (){
         else if(Estado==false && aux ==0) cout << "No hay registros con ese ID." << endl;
         return true;
 }
+
 bool ArchivoEquipos:: listarTodos (){
 
         Equipos reg;
@@ -1031,8 +1039,10 @@ bool ArchivoEquipos:: listarTodos (){
         fclose(p);
         return true;
 }
+
 bool ArchivoEquipos::modificarRegistroEquipo (Equipos reg, int pos){
-        int id;
+
+    int id;
     cout << "Ingrese el ID del Equipo para modificar el Nombre: ";
     cin >> id;
      pos = BuscarPorID(id);
@@ -1058,6 +1068,7 @@ bool ArchivoEquipos::modificarRegistroEquipo (Equipos reg, int pos){
 }
 
 int ArchivoEquipos:: BuscarPorID (int id){
+
        Equipos reg;
        FILE *p;
         p=fopen("equipos.dat", "rb");
@@ -1079,6 +1090,7 @@ int ArchivoEquipos:: BuscarPorID (int id){
 }
 
 bool ArchivoEquipos::eliminarRegistroEquipo(){
+
     int id;
     cout << "Ingresar el ID del Equipo a dar de baja: ";
     cin >> id;
