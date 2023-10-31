@@ -23,7 +23,7 @@ int nivel ;
 bool estado ;
 static int contEquipos;
     public :
-      Equipos(int id=0 , const char *n="Ninguno"  , int N=1,bool e=true){
+      Equipos(int id=-1 , const char *n="Ninguno"  , int N=1,bool e=true){
       ID=id ;
       strcpy(nombre,n);
       nivel=N ;
@@ -206,6 +206,7 @@ void TipodeDeporte::Mostrar(){
 }
 
 ///  ----------------------------------------------------  CLASS DEPORTE  ----------------------------------------------------  ///
+
 
 class Deporte {
 
@@ -393,7 +394,6 @@ bool archivoDeporte::listarRegistros(){
 }
 
 ///  ----------------------------------------------------  CLASS ARCHIVO TIPO DE DEPORTE  ----------------------------------------------------  ///
-
 class archivoTipodeDeporte{
 
 private:
@@ -441,7 +441,6 @@ bool archivoTipodeDeporte::buscarPorIDTipo(int id){
         fclose(p);
         return false;
 }
-
 //haciendo
 bool archivoTipodeDeporte::listarRegistros(){
 
@@ -463,7 +462,6 @@ bool archivoTipodeDeporte::listarRegistros(){
 }
 
 ///  ----------------------------------------------------  CLASS FECHA  ----------------------------------------------------  ///
-
 class Fecha{
     private:
         int dia, mes, anio;
@@ -1109,5 +1107,4 @@ bool ArchivoEquipos::eliminarRegistroEquipo(){
 }
 
 */
-
 #endif // CLASES_H_INCLUDED

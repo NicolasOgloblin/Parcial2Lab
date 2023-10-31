@@ -87,6 +87,7 @@ bool agregarEquipos(){
     Equipos reg;
     FILE *p;
     p=fopen("equipos.dat","ab");
+    reg.Cargar();
     if(p==NULL){
         return false;
     }
@@ -187,32 +188,42 @@ int BuscarEquiposPorID (int id){ ///BsucarPorId() buscarla
         return -1; //si devuelve -1 es que no encontro un registro.
 }
 
+void escribirRegistroEquipo(Equipos reg, int pos) {
+    FILE* p;
+    p = fopen("equipos.dat", "rb+");
+    if (p == NULL) {
+        cout << "Error de archivo." << endl;
+        return;
+    }
+    fseek(p, sizeof(Equipos) * pos, 0);
+    fwrite(&reg, sizeof(Equipos), 1, p);
+    fclose(p);
+}
+
 bool modificarRegistroEquipo (){
         int id;
-        int pos;
-        Equipos reg;
+
     cout << "Ingrese el ID del Equipo para modificar el Nombre: ";
     cin >> id;
-     pos = BuscarEquiposPorID(id);
+    int pos = BuscarEquiposPorID(id);
     if (pos==-1){
         cout << "No existe un registro con ese ID" << endl;
-        return false;
-    }
-    reg=leerRegistroEquipo (pos);  //LeerRegistroEquipo
+
+    }   else{
+    Equipos reg;
+    reg=leerRegistroEquipo (pos);
     char nuevoNombre[30];
       // Solicitar el nuevo nombre
     cout << "Ingrese el nuevo Nombre:" << endl;
     cin >> nuevoNombre;
 
     reg.setNombre(nuevoNombre);
+   escribirRegistroEquipo(reg, pos);
+
+       return true ;
 
 
-    // Modificar el registro en el archivo
-    bool exito;/* = modificarRegistroEquipo(reg, pos); //Aca hay un problema re recursividad
-*/
-    return exito;
-
-
+    }
 }
 
 bool eliminarRegistroEquipo(){
@@ -315,7 +326,6 @@ bool listarTodosTipos(){
         fclose(p);
         return true;
 }
-
 /*
 bool modificarNivelDificultad(){
 
@@ -950,8 +960,8 @@ void subMenuTiposDeDeporte(){
         break;
     case 3: if(!listarTodosTipos()) cout <<"ERROR AL LEER EL ARCHIVO."<<endl;
         break;
-    case 4: if(modificarNivelDificultad()) cout <<"NIVEL MODIFICADO." << endl;
-            else cout <<"ERROR AL MODIFICAR." << endl;
+    case 4: //if(modificarNivelDificultad()) cout <<"NIVEL MODIFICADO." << endl;
+          //  else cout <<"ERROR AL MODIFICAR." << endl;
         break;
     case 5: if (bajaLogica()) cout << "Registro dado de baja."<<endl;
             else cout << "No se pudo dar de baja"<<endl;
@@ -1050,6 +1060,56 @@ void subMenuDeportes(){
         break;
 
     case 5: if (eliminarRegistroDeporte()) cout << "Registro dado de baja."<<endl;
+            else cout << "No se pudo dar de baja"<<endl;
+        break;
+
+    case 0: return ;
+        break;
+
+    }
+    system("pause");
+        }
+
+}
+
+void subMenuEquipos(){
+    int opc;
+    Equipos obj;
+
+    while(true){
+    system ("cls");
+    cout <<"       MENU EQUIPOS             "<< endl;
+    cout <<"----------------------------------"<< endl;
+    cout <<"1) AGREGAR EQUIPO                "<< endl;
+    cout <<"2) LISTAR EQUIPO POR ID          "<< endl;
+    cout <<"3) LISTAR TODO                    "<< endl;
+    cout <<"4) MODIFICAR NOMBRE       "<< endl;
+    cout <<"5) ELIMINAR REGISTRO              "<< endl;
+    cout <<"----------------------------------"<< endl;
+    cout <<"0) VOLVER AL MENU PRINCIPAL       "<< endl;
+
+    cout << "Ingrese una opcion: ";
+    cin >> opc;
+
+    system("cls");
+
+    switch(opc){
+
+    case 1: if(agregarEquipos()) cout <<"REGISTRO AGREGADO"<<endl;
+            else cout <<"NO SE PUDO AGREGAR EL REGISTRO"<<endl;
+        break;
+
+    case 2: listarEquiposPorId();
+        break;
+
+    case 3: listarTodosEquipo();
+        break;
+
+    case 4: if(modificarRegistroEquipo()) cout <<"NOMBRE MODIFICADO." << endl;
+            else cout <<"ERROR AL MODIFICAR." << endl;
+        break;
+
+    case 5: if (eliminarRegistroEquipo()==true) cout << "Registro dado de baja."<<endl;
             else cout << "No se pudo dar de baja"<<endl;
         break;
 

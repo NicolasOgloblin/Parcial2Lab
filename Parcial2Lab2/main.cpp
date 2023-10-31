@@ -15,8 +15,7 @@ using namespace std;
 #include "Reportes.h"
 
 
-int main()
-{
+int main(){
 
    int opc;
 
@@ -42,23 +41,25 @@ int main()
 
     switch(opc){
 
-    case 1: subMenuJugadores();
-        break;
-    case 2: subMenuDeportes();
-        break;
-  //case 3: subMenuEquipos();
- //       break;
-    case 4: subMenuTiposDeDeporte();
-        break;
-    case 5: subMenuReportes();
-        break;
-    case 6: subMenuConfiguracion();
-        break;
-    case 0: return 0;
-        break;
+        case 1: subMenuJugadores();
+            break;
+        case 2: subMenuDeportes();
+            break;
+        case 3: subMenuEquipos();
+            break;
+        case 4: subMenuTiposDeDeporte();
+            break;
+        case 5: subMenuReportes();
+            break;
+        case 6: subMenuConfiguracion();
+            break;
+        case 0: return 0;
+            break;
 
         }
-    system("pause");
+
+        system("pause");
     }
     return 0;
 }
+
