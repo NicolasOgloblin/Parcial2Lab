@@ -1,0 +1,32 @@
+# depslib dependency file v1.0
+1698770054 source:c:\repos\parcial2lab\parcial2lab2\main.cpp
+	<iostream>
+	<cstdlib>
+	<cstring>
+	<ctime>
+	"Funciones.h"
+	"Clases.h"
+	"Prototipos.h"
+	"Reportes.h"
+
+1698771010 c:\repos\parcial2lab\parcial2lab2\funciones.h
+	"Prototipos.h"
+	"Clases.h"
+	"Reportes.h"
+
+1698772693 c:\repos\parcial2lab\parcial2lab2\prototipos.h
+	"Clases.h"
+	"Funciones.h"
+	"Reportes.h"
+
+1698770607 c:\repos\parcial2lab\parcial2lab2\clases.h
+	<ctime>
+	"Funciones.h"
+	"Prototipos.h"
+	"Reportes.h"
+
+1698767319 c:\repos\parcial2lab\parcial2lab2\reportes.h
+	"Clases.h"
+	"Funciones.h"
+	"Prototipos.h"
+
