@@ -9,8 +9,8 @@
 
 using namespace std;
 
-#include "Clases.h"
 #include "Funciones.h"
+#include "Clases.h"
 #include "Prototipos.h"
 #include "Reportes.h"
 
@@ -21,6 +21,7 @@ int main()
    int opc;
 
     while(true){
+
     system ("cls");
 
     cout <<"       MENU PRINCIPAL             "<< endl;
@@ -45,7 +46,7 @@ int main()
         break;
     case 2: subMenuDeportes();
         break;
-//    case 3: subMenuEquipos();
+  //case 3: subMenuEquipos();
  //       break;
     case 4: subMenuTiposDeDeporte();
         break;

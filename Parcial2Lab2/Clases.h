@@ -7,9 +7,14 @@
 #include "Reportes.h"
 
 ///Prototipo provisorio hasta solucionar problema. No compila si no pongo el prototipo acá, mas allá de hacer el include de los prototipos en donde está incluido el cargarCadena.///
+
 void cargarCadena(char *, int);
+
 ///----------------------------///
-///------------------------  CLASS EQUIPOS   ----------------------------///
+
+
+///  ----------------------------------------------------  CLASS EQUIPOS  ----------------------------------------------------  ///
+
 class Equipos{
     private :
 int ID ;
@@ -78,6 +83,7 @@ int contarRegistrosEquipos() {
 };
 
 int Equipos::contEquipos = 0;
+
 void Equipos::Cargar(){
      ID = contarRegistrosEquipos()+1;
      cout <<"NOMBRE: ";
@@ -87,6 +93,7 @@ void Equipos::Cargar(){
     setNivel(nivel);
 
 }
+
 void Equipos::Mostrar(){
 
     cout << "ID: ";
@@ -99,7 +106,9 @@ void Equipos::Mostrar(){
 void Equipos::contarregistrosEquipos(){
     Equipos reg;
 }
-///  ------------------------  CLASS TIPO DE DEPORTE   ------------------------///
+
+///  ----------------------------------------------------  CLASS TIPO DE DEPORTE  ----------------------------------------------------  ///
+
 class TipodeDeporte {
 
 private:
@@ -195,7 +204,8 @@ void TipodeDeporte::Mostrar(){
 
 
 }
-///  ------------------------  CLASS DEPORTE   ------------------------///
+
+///  ----------------------------------------------------  CLASS DEPORTE  ----------------------------------------------------  ///
 
 class Deporte {
 
@@ -312,7 +322,9 @@ void Deporte::Mostrar(){
 
 
 }
-///  ------------------------  CLASS ARCHIVODEPORTE   ------------------------///
+
+///  ----------------------------------------------------  CLASS ARCHIVO DEPORTE  ----------------------------------------------------  ///
+
 class archivoDeporte{
 
 private:
@@ -379,7 +391,9 @@ bool archivoDeporte::listarRegistros(){
         fclose(p);
         return true;
 }
-/// ///  ------------------------  CLASS ARCHIVO TIPO DE DEPORTE   ------------------------///
+
+///  ----------------------------------------------------  CLASS ARCHIVO TIPO DE DEPORTE  ----------------------------------------------------  ///
+
 class archivoTipodeDeporte{
 
 private:
@@ -427,6 +441,7 @@ bool archivoTipodeDeporte::buscarPorIDTipo(int id){
         fclose(p);
         return false;
 }
+
 //haciendo
 bool archivoTipodeDeporte::listarRegistros(){
 
@@ -447,7 +462,8 @@ bool archivoTipodeDeporte::listarRegistros(){
         return true;
 }
 
-///  ------------------------  CLASS FECHA   ------------------------///
+///  ----------------------------------------------------  CLASS FECHA  ----------------------------------------------------  ///
+
 class Fecha{
     private:
         int dia, mes, anio;
@@ -586,7 +602,7 @@ class Fecha{
         int getAnio (){return anio;}
 };
 
-///------------------------   CLASS PERSONA   ------------------------///
+///  ----------------------------------------------------  CLASS PERSONA  ----------------------------------------------------  ///
 
 class Persona{
 
@@ -670,7 +686,8 @@ void Persona::Mostrar(){
     fechaNacimiento.mostrarEnLinea();
 
 }
-///------------------------   CLASS JUGADORES   ------------------------///
+
+///  ----------------------------------------------------  CLASS JUGADORES  ----------------------------------------------------  ///
 
 class Jugadores:public Persona {
 
@@ -792,7 +809,9 @@ void Jugadores::Mostrar (){
     cout << matricula << endl;
     }
 }
-///------------------------   CLASS ARCHIVOJUGADORES   ------------------------///
+
+///  ----------------------------------------------------  CLASS ARCHIVO JUGADORES  ----------------------------------------------------  ///
+
 class ArchivoJugadores{
 private:
     char nombre[30];
@@ -822,6 +841,7 @@ bool ArchivoJugadores::listarRegistrosJ(){
     fclose(p);
     return true;
 }
+
 bool ArchivoJugadores::grabarRegistroJ(Jugadores reg){
     FILE *p;
     p=fopen(nombre,"ab");
@@ -832,6 +852,7 @@ bool ArchivoJugadores::grabarRegistroJ(Jugadores reg){
     fclose(p);
     return escribio;
 }
+
 Jugadores ArchivoJugadores::leerRegistroJ(int pos){
     Jugadores reg;
     reg.setEstado(false);
@@ -887,7 +908,8 @@ int ArchivoJugadores::contarRegistrosActivosJ(){
     return cuentaReg;
 }
 
-///------------------PUNTO A ----------------------------///
+///  ----------------------------------------------------  PUNTO A  ----------------------------------------------------  ///
+
 void puntoA(){
     int deporte, cantJugadores=0;
     ArchivoJugadores archi("jugadores.dat");
@@ -905,5 +927,187 @@ void puntoA(){
     cout<<"CANTIDAD DE JUGADORES "<<cantJugadores<<endl;
   }
 
+///  ----------------------------------------------------  CLASS ARCHIVO EQUIPOS  ----------------------------------------------------  ///
+
+class ArchivoEquipos{
+
+private :
+    char nombre[30] ;
+public :
+    ArchivoEquipos(const char *n){
+    strcpy(nombre,n);
+    }
+ const char *getNombre (){return nombre;}
+
+    bool agregarEquipos(ArchivoEquipos);
+    bool listarEquiposPorId ();
+    bool listarTodos ();
+    bool modificarRegistroEquipo (Equipos,int);
+    bool eliminarRegistroEquipo();
+    ///
+    int BuscarPorID(int);
+    Equipos leerRegistro(int);
+
+
+
+};
+
+/*
+bool ArchivoEquipos::agregarEquipos(ArchivoEquipos reg){
+    FILE *p;
+    p=fopen(nombre,"ab");
+    if(p==NULL){
+        return false;
+    }
+    bool escribio=fwrite(&reg,sizeof reg,1,p);
+    fclose(p);
+    return escribio;
+}
+
+Equipos ArchivoEquipos::leerRegistro (int pos){
+        Equipos reg ;
+        FILE *p;
+        reg.setID(-1);
+        p=fopen("equipos.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return reg; //Aca reg tiene dni -1
+        }
+        fseek(p, sizeof reg*pos, 0);
+        int leyo=fread(&reg, sizeof(Equipos), 1, p);
+
+        fclose(p);
+        if(leyo==0) reg.setID(-1);
+        return reg; //si devuelve reg dni-1 es que no encontro un registro.
+}
+
+bool ArchivoEquipos::listarEquiposPorId (){
+        int id;
+        Equipos reg;
+        int aux=0;
+        FILE *p;
+
+        bool Estado = false;
+        cout << "Ingrese el ID del deporte: ";
+        cin >> id;
+
+        p=fopen("equipos.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return false;
+        }
+
+        while (fread(&reg, sizeof(Equipos), 1, p)==1){
+            if(reg.getEstado()==false){
+                aux++;
+            }else if (reg.getEstado()==true){
+            if(reg.getID()==id){
+                cout << "------------------------------------" << endl;
+                reg.Mostrar();
+                Estado = true;
+                cout << endl;
+            }
+          }
+        }
+        fclose(p);
+        if(Estado==false && aux > 0) cout << "El Equipo fue dado de baja." << endl;
+        else if(Estado==false && aux ==0) cout << "No hay registros con ese ID." << endl;
+        return true;
+}
+bool ArchivoEquipos:: listarTodos (){
+
+        Equipos reg;
+        FILE *p;
+
+        p=fopen("equipos.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return false;
+        }
+
+        while (fread(&reg, sizeof(Equipos), 1, p)==1){
+            cout << "------------------------------------" << endl;
+            reg.Mostrar();
+            cout << endl;
+        }
+        fclose(p);
+        return true;
+}
+bool ArchivoEquipos::modificarRegistroEquipo (Equipos reg, int pos){
+        int id;
+    cout << "Ingrese el ID del Equipo para modificar el Nombre: ";
+    cin >> id;
+     pos = BuscarPorID(id);
+    if (pos==-1){
+        cout << "No existe un registro con ese ID" << endl;
+        return false;
+    }
+    reg=leerRegistro (pos);
+    char nuevoNombre[30];
+      // Solicitar el nuevo nombre
+    cout << "Ingrese el nuevo Nombre:" << endl;
+    cin >> nuevoNombre;
+
+    reg.setNombre(nuevoNombre);
+
+
+    // Modificar el registro en el archivo
+    bool exito = modificarRegistroEquipo(reg, pos);
+
+    return exito;
+
+
+}
+
+int ArchivoEquipos:: BuscarPorID (int id){
+       Equipos reg;
+       FILE *p;
+        p=fopen("equipos.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return -2; //si es -2 es que hubo un error.
+        }
+        int cuentaRegistros=0;
+        while (fread(&reg, sizeof (Equipos), 1, p)==1){
+
+            if (reg.getID()==id){
+                fclose(p); //siempre cierro el archivo.
+                return cuentaRegistros; //devuelvo porque encontro
+            }
+            cuentaRegistros++;
+        }
+        fclose(p);
+        return -1; //si devuelve -1 es que no encontro un registro.
+}
+
+bool ArchivoEquipos::eliminarRegistroEquipo(){
+    int id;
+    cout << "Ingresar el ID del Equipo a dar de baja: ";
+    cin >> id;
+    int pos = BuscarPorID(id);
+    if (pos == -1) {
+        cout << "No existe un registro con ese ID" << endl;
+        return false;
+    }
+
+    FILE *p = fopen("equipos.dat", "rb+");
+    if (p == NULL) {
+        cout << "Error de archivo." << endl;
+        return false;
+    }
+
+    Equipos reg;
+    fseek(p, pos * sizeof(Equipos), 0);
+    fread(&reg, sizeof(Equipos), 1, p);
+    reg.setEstado(false);
+
+    fseek(p, pos * sizeof(Equipos), 0);
+    bool escribio = fwrite(&reg, sizeof(Equipos), 1, p);
+
+    fclose(p);
+    return escribio;
+}
+
+*/
 
 #endif // CLASES_H_INCLUDED

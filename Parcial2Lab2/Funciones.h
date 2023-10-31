@@ -1,11 +1,12 @@
 #ifndef FUNCIONES_H_INCLUDED
 #define FUNCIONES_H_INCLUDED
 
-#include "Clases.h"
 #include "Prototipos.h"
+#include "Clases.h"
 #include "Reportes.h"
 
-///------------------------   CARGAR CADENA   ------------------------///
+///  ----------------------------------------------------  CARGAR CADENA  ----------------------------------------------------  ///
+
 void cargarCadena(char *palabra, int tam){
     int i = 0;
     fflush(stdin);
@@ -17,7 +18,7 @@ void cargarCadena(char *palabra, int tam){
     fflush(stdin);
 }
 
-///----------------------------RESTAURAR DATOS INICIO ------------------///
+///  ----------------------------------------------------  RESTAURAR DATOS DE INICIO  ----------------------------------------------------  ///
 
 bool restaurarDatosInicioDeporte(){
 
@@ -79,8 +80,170 @@ bool restaurarDatosInicio (){
     }else return false;
 
 }
-///---------------------------- FUNCIONES PARA TIPOS DE DEPORTE ------------------///
 
+///  ----------------------------------------------------  FUNCIONES PARA EQUIPOS  ----------------------------------------------------  ///
+
+bool agregarEquipos(){
+    Equipos reg;
+    FILE *p;
+    p=fopen("equipos.dat","ab");
+    if(p==NULL){
+        return false;
+    }
+    bool escribio=fwrite(&reg,sizeof reg,1,p);
+    fclose(p);
+    return escribio;
+}
+
+Equipos leerRegistroEquipo (int pos){
+        Equipos reg ;
+        FILE *p;
+        reg.setID(-1);
+        p=fopen("equipos.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return reg; //Aca reg tiene dni -1
+        }
+        fseek(p, sizeof reg*pos, 0);
+        int leyo=fread(&reg, sizeof(Equipos), 1, p);
+
+        fclose(p);
+        if(leyo==0) reg.setID(-1);
+        return reg; //si devuelve reg dni-1 es que no encontro un registro.
+}
+
+bool listarEquiposPorId (){
+        int id;
+        Equipos reg;
+        int aux=0;
+        FILE *p;
+
+        bool Estado = false;
+        cout << "Ingrese el ID del deporte: ";
+        cin >> id;
+
+        p=fopen("equipos.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return false;
+        }
+
+        while (fread(&reg, sizeof(Equipos), 1, p)==1){
+            if(reg.getEstado()==false){
+                aux++;
+            }else if (reg.getEstado()==true){
+            if(reg.getID()==id){
+                cout << "------------------------------------" << endl;
+                reg.Mostrar();
+                Estado = true;
+                cout << endl;
+            }
+          }
+        }
+        fclose(p);
+        if(Estado==false && aux > 0) cout << "El Equipo fue dado de baja." << endl;
+        else if(Estado==false && aux ==0) cout << "No hay registros con ese ID." << endl;
+        return true;
+}
+
+bool listarTodosEquipo (){ //ListarTodosEquipo
+
+        Equipos reg;
+        FILE *p;
+
+        p=fopen("equipos.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return false;
+        }
+
+        while (fread(&reg, sizeof(Equipos), 1, p)==1){
+            cout << "------------------------------------" << endl;
+            reg.Mostrar();
+            cout << endl;
+        }
+        fclose(p);
+        return true;
+}
+
+int BuscarEquiposPorID (int id){ ///BsucarPorId() buscarla
+       Equipos reg;
+       FILE *p;
+        p=fopen("equipos.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return -2; //si es -2 es que hubo un error.
+        }
+        int cuentaRegistros=0;
+        while (fread(&reg, sizeof (Equipos), 1, p)==1){
+
+            if (reg.getID()==id){
+                fclose(p); //siempre cierro el archivo.
+                return cuentaRegistros; //devuelvo porque encontro
+            }
+            cuentaRegistros++;
+        }
+        fclose(p);
+        return -1; //si devuelve -1 es que no encontro un registro.
+}
+
+bool modificarRegistroEquipo (){
+        int id;
+        int pos;
+        Equipos reg;
+    cout << "Ingrese el ID del Equipo para modificar el Nombre: ";
+    cin >> id;
+     pos = BuscarEquiposPorID(id);
+    if (pos==-1){
+        cout << "No existe un registro con ese ID" << endl;
+        return false;
+    }
+    reg=leerRegistroEquipo (pos);  //LeerRegistroEquipo
+    char nuevoNombre[30];
+      // Solicitar el nuevo nombre
+    cout << "Ingrese el nuevo Nombre:" << endl;
+    cin >> nuevoNombre;
+
+    reg.setNombre(nuevoNombre);
+
+
+    // Modificar el registro en el archivo
+    bool exito;/* = modificarRegistroEquipo(reg, pos); //Aca hay un problema re recursividad
+*/
+    return exito;
+
+
+}
+
+bool eliminarRegistroEquipo(){
+    int id;
+    cout << "Ingresar el ID del Equipo a dar de baja: ";
+    cin >> id;
+    int pos = BuscarEquiposPorID(id);
+    if (pos == -1) {
+        cout << "No existe un registro con ese ID" << endl;
+        return false;
+    }
+
+    FILE *p = fopen("equipos.dat", "rb+");
+    if (p == NULL) {
+        cout << "Error de archivo." << endl;
+        return false;
+    }
+
+    Equipos reg;
+    fseek(p, pos * sizeof(Equipos), 0);
+    fread(&reg, sizeof(Equipos), 1, p);
+    reg.setEstado(false);
+
+    fseek(p, pos * sizeof(Equipos), 0);
+    bool escribio = fwrite(&reg, sizeof(Equipos), 1, p);
+
+    fclose(p);
+    return escribio;
+}
+
+///  ----------------------------------------------------  FUNCIONES PARA TIPOS DE DEPORTES  ----------------------------------------------------  ///
 
 bool agregarTipoDeporte(){
 
@@ -97,7 +260,6 @@ bool agregarTipoDeporte(){
 
         return false;
 }
-
 
 bool listarTipoPorID(){
 
@@ -119,7 +281,7 @@ bool listarTipoPorID(){
             if(reg.getEstado()==false){
                 aux++;
             }else if (reg.getEstado()==true){
-            if(reg.getIDTipo()==id){
+            if(reg.getID()==id){
                 cout << "------------------------------------" << endl;
                 reg.Mostrar();
                 Estado = true;
@@ -153,6 +315,7 @@ bool listarTodosTipos(){
         fclose(p);
         return true;
 }
+
 /*
 bool modificarNivelDificultad(){
 
@@ -187,7 +350,60 @@ bool modificarNivelDificultad(){
 
 }
 */
-bool bajaLogica(){
+
+int buscarPorIDTipo (int id){
+        TipodeDeporte reg;
+        FILE *p;
+        p=fopen("TipodeDeporte.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return -2; //si es -2 es que hubo un error.
+        }
+        int cuentaRegistros=0;
+        while (fread(&reg, sizeof(TipodeDeporte), 1, p)==1){
+
+            if (reg.getID()==id){
+                fclose(p); //siempre cierro el archivo.
+                return cuentaRegistros; //devuelvo porque encontro
+            }
+            cuentaRegistros++;
+        }
+        fclose(p);
+        return -1; //si devuelve -1 es que no encontro un registro.
+}
+
+TipodeDeporte leeRegistroTipo (int pos){
+        TipodeDeporte reg;
+        FILE *p;
+        reg.setIDTipo(-1);
+        p=fopen("TipodeDeporte.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return reg; //Aca reg tiene ID -1
+        }
+        fseek(p, sizeof reg*pos, 0);
+        int leyo=fread(&reg, sizeof(TipodeDeporte), 1, p);
+
+        fclose(p);
+        if(leyo==0) reg.setIDTipo(-1); //Acá no leyó el registro
+        return reg; //si devuelve reg ID-1 es que no encontro un registro.
+}
+
+bool modificarRegistroTipodeDeporte (TipodeDeporte reg, int pos){
+        FILE *p;
+        p=fopen("TipodeDeporte.dat", "rb+");
+        if(p==NULL){
+            cout << "Error de archivo.";
+            fclose(p);
+            return false;
+        }
+        fseek(p, sizeof reg*pos, 0);
+        bool escribio = fwrite(&reg, sizeof(TipodeDeporte), 1, p);
+        fclose(p);
+        return escribio;
+}
+
+bool bajaLogicaTipo(){
     int id;
     cout << "Ingresar el ID del tipo de deporte a dar de baja.";
     cin >> id;
@@ -197,14 +413,14 @@ bool bajaLogica(){
         return false;
     }
     TipodeDeporte reg;
-    reg=leeRegistro(pos); // hacer leerRegistro
+    reg=leeRegistroTipo(pos); // hacer leerRegistro
     reg.setEstado(false);
     bool quePaso= modificarRegistroTipodeDeporte(reg, pos);//hacer modificarRegistroTipodeDeporte(reg, pos)
     return quePaso;
 
 }
 
-///------------------------   FUNCIONES PARA ARCHIVOS DEPORTES  ------------------------///
+///  ----------------------------------------------------  FUNCIONES PARA ARCHIVO DEPORTES  ----------------------------------------------------  ///
 
 bool agregarDeporte(){
 
@@ -221,6 +437,7 @@ bool agregarDeporte(){
 
         return false;
 }
+
 void mostrarDeportes (){
         archivoDeporte archi("Deportes.dat");
         archi.listarRegistros();
@@ -277,6 +494,7 @@ Deporte leeRegistro (int pos){
         if(leyo==0) reg.setID(-1); //Acá no leyó el registro
         return reg; //si devuelve reg ID-1 es que no encontro un registro.
 }
+
 bool modificarAnioDeOrigen(){
 
     int id;
@@ -405,7 +623,7 @@ FILE *p =fopen("Deportes.bak","rb");
 
 }
 
-///------------------------   FUNCIONES PARA ARCHIVOS JUGADORES  ------------------------///
+///  ----------------------------------------------------  FUNCIONES PARA ARCHIVO JUGADORES  ----------------------------------------------------  ///
 
 bool agregarJugador(){
 
@@ -700,7 +918,8 @@ FILE *p =fopen("Jugadores.bak","rb");
 
 }
 
-///------------------------   SUBMENUES   ------------------------///
+///  ----------------------------------------------------  SUBMENUES  ----------------------------------------------------  ///
+
 void subMenuTiposDeDeporte(){
  int opc;
     TipodeDeporte obj;
@@ -746,6 +965,7 @@ void subMenuTiposDeDeporte(){
         }
 
 }
+
 void subMenuJugadores(){
  int opc;
     Jugadores obj;

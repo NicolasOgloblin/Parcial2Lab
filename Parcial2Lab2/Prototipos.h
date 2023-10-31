@@ -5,7 +5,8 @@
 #include "Funciones.h"
 #include "Reportes.h"
 
-///----------------- PROTOTIPOS -----------------///
+///  ----------------------------------------------------  PROTOTIPOS  ----------------------------------------------------  ///
+
 void cargarCadena(char, int);
 int buscarPorDni(int);
 Jugadores leerRegistro (int);
@@ -38,7 +39,8 @@ bool copiaSeguridadDeportes();
 bool restaurarArchDeportes();
 bool copiaSeguridadJugadores();
 bool restaurarArchJugadores();
-///----------------- FIN PROTOTIPOS -----------------///
+
+///  ----------------------------------------------------  FIN PROTOTIPOS  ----------------------------------------------------  ///
 
 
 
