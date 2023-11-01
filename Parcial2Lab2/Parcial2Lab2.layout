@@ -2,113 +2,51 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-2" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="3" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="991" topLine="0" />
+			<Cursor1 position="281" topLine="31" />
 		</Cursor>
 	</File>
-	<File name="Prototipos.h" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+	<File name="Reportes.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="616" topLine="0" />
+			<Cursor1 position="60" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Reportes.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Funciones.h" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="157" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Funciones.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="17128" topLine="79" />
+			<Cursor1 position="5847" topLine="30" />
 		</Cursor>
 		<Folding>
-			<Collapse line="9" />
-			<Collapse line="22" />
-			<Collapse line="49" />
-			<Collapse line="76" />
+			<Collapse line="7" />
+			<Collapse line="21" />
+			<Collapse line="48" />
+			<Collapse line="75" />
 			<Collapse line="85" />
-			<Collapse line="98" />
-			<Collapse line="115" />
-			<Collapse line="149" />
-			<Collapse line="169" />
-			<Collapse line="190" />
-			<Collapse line="202" />
-			<Collapse line="228" />
-			<Collapse line="258" />
-			<Collapse line="274" />
-			<Collapse line="308" />
-			<Collapse line="328" />
-			<Collapse line="363" />
-			<Collapse line="384" />
-			<Collapse line="401" />
-			<Collapse line="415" />
-			<Collapse line="434" />
-			<Collapse line="450" />
-			<Collapse line="456" />
-			<Collapse line="490" />
-			<Collapse line="507" />
-			<Collapse line="534" />
-			<Collapse line="555" />
-			<Collapse line="572" />
-			<Collapse line="585" />
-			<Collapse line="609" />
-			<Collapse line="637" />
-			<Collapse line="659" />
-			<Collapse line="688" />
-			<Collapse line="709" />
-			<Collapse line="744" />
-			<Collapse line="777" />
-			<Collapse line="794" />
-			<Collapse line="825" />
-			<Collapse line="846" />
-			<Collapse line="864" />
-			<Collapse line="878" />
-			<Collapse line="903" />
-			<Collapse line="932" />
-			<Collapse line="978" />
-			<Collapse line="1024" />
-			<Collapse line="1074" />
-			<Collapse line="1124" />
+			<Collapse line="99" />
+			<Collapse line="117" />
+			<Collapse line="152" />
+			<Collapse line="172" />
+			<Collapse line="194" />
+			<Collapse line="207" />
+			<Collapse line="235" />
+			<Collapse line="267" />
+			<Collapse line="284" />
+			<Collapse line="318" />
+			<Collapse line="339" />
+			<Collapse line="374" />
+			<Collapse line="396" />
+			<Collapse line="414" />
+			<Collapse line="429" />
 		</Folding>
 	</File>
-	<File name="Clases.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Prototipos.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="336" topLine="0" />
+			<Cursor1 position="83" topLine="0" />
 		</Cursor>
-		<Folding>
-			<Collapse line="17" />
-			<Collapse line="86" />
-			<Collapse line="96" />
-			<Collapse line="105" />
-			<Collapse line="111" />
-			<Collapse line="182" />
-			<Collapse line="195" />
-			<Collapse line="210" />
-			<Collapse line="297" />
-			<Collapse line="312" />
-			<Collapse line="328" />
-			<Collapse line="356" />
-			<Collapse line="376" />
-			<Collapse line="396" />
-			<Collapse line="424" />
-			<Collapse line="444" />
-			<Collapse line="464" />
-			<Collapse line="604" />
-			<Collapse line="648" />
-			<Collapse line="670" />
-			<Collapse line="689" />
-			<Collapse line="762" />
-			<Collapse line="794" />
-			<Collapse line="812" />
-			<Collapse line="827" />
-			<Collapse line="842" />
-			<Collapse line="853" />
-			<Collapse line="867" />
-			<Collapse line="879" />
-			<Collapse line="893" />
-			<Collapse line="910" />
-			<Collapse line="929" />
-			<Collapse line="952" />
-		</Folding>
+	</File>
+	<File name="Clases.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2017" topLine="0" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

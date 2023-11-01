@@ -337,40 +337,48 @@ bool listarTodosTipos(){
         return true;
 }
 
-/*
+bool modificarRegistroTipodeDeporte (TipodeDeporte reg, int pos){
+
+        FILE *p;
+        p=fopen("TipodeDeporte.dat", "rb+");
+        if(p==NULL){
+            cout << "Error de archivo.";
+            fclose(p);
+            return false;
+        }
+        fseek(p, sizeof reg*pos, 0);
+        bool escribio = fwrite(&reg, sizeof(TipodeDeporte), 1, p);
+        fclose(p);
+        return escribio;
+}
+
 bool modificarNivelDificultad(){
 
-    int valor;
-    cout << "Ingrese el DNI del jugador para modificar la fecha de inscripcion: ";
-    cin >> dni;
-    int pos = buscarPorDni(dni); //hacer BuscarporID
+    int id, nuevaDificultad;
+    cout << "Ingrese ID del tipo de Deporte para modificar la dificultad: ";
+    cin >> id;
+    int pos = buscarPorIDTipo(id); //hacer BuscarporID
     if (pos==-1){
         cout << "No existe un registro con ese DNI" << endl;
         return false;
     }
-    Jugadores reg;
-    reg=leerRegistro(pos);
+    TipodeDeporte reg;
+    reg=leeRegistroTipo(pos);//hacer?
 
 
-    cout << "Ingrese la nueva fecha de inscripcion:" << endl;
-    cout << "DIA: ";
-    int nuevoDia;
-    cin >> nuevoDia;
-    cout << "MES: ";
-    int nuevoMes;
-    cin >> nuevoMes;
-    cout << "ANIO: ";
-    int nuevoAnio;
-    cin >> nuevoAnio;
+    cout << "Ingrese la nueva dificultad:" << endl;
+    cin >> nuevaDificultad;
 
-    reg.setFechaInscripcion(nuevoDia, nuevoMes, nuevoAnio);
+    reg.setNivelDificultad(nuevaDificultad);
 
-    bool exito = modificarRegistro(reg, pos);
+    bool exito = modificarRegistroTipodeDeporte(reg, pos);
 
     return exito;
 
 }
-*/
+
+
+
 
 int buscarPorIDTipo (int id){
 
@@ -399,11 +407,13 @@ TipodeDeporte leeRegistroTipo (int pos){
         TipodeDeporte reg;
         FILE *p;
         reg.setIDTipo(-1);
+
         p=fopen("TipodeDeporte.dat", "rb");
         if (p==NULL){
             cout << "Error de archivo.";
             return reg; //Aca reg tiene ID -1
         }
+
         fseek(p, sizeof reg*pos, 0);
         int leyo=fread(&reg, sizeof(TipodeDeporte), 1, p);
 
@@ -412,20 +422,7 @@ TipodeDeporte leeRegistroTipo (int pos){
         return reg; //si devuelve reg ID-1 es que no encontro un registro.
 }
 
-bool modificarRegistroTipodeDeporte (TipodeDeporte reg, int pos){
 
-        FILE *p;
-        p=fopen("TipodeDeporte.dat", "rb+");
-        if(p==NULL){
-            cout << "Error de archivo.";
-            fclose(p);
-            return false;
-        }
-        fseek(p, sizeof reg*pos, 0);
-        bool escribio = fwrite(&reg, sizeof(TipodeDeporte), 1, p);
-        fclose(p);
-        return escribio;
-}
 
 bool bajaLogicaTipo(){
 
@@ -991,8 +988,8 @@ void subMenuTiposDeDeporte(){
         break;
     case 3: if(!listarTodosTipos()) cout <<"ERROR AL LEER EL ARCHIVO."<<endl;
         break;
-    case 4: //if(modificarNivelDificultad()) cout <<"NIVEL MODIFICADO." << endl;
-          //  else cout <<"ERROR AL MODIFICAR." << endl;
+    case 4: if(modificarNivelDificultad()) cout <<"NIVEL MODIFICADO." << endl;
+            else cout <<"ERROR AL MODIFICAR." << endl;
         break;
     case 5: if (bajaLogica()) cout << "Registro dado de baja."<<endl;
             else cout << "No se pudo dar de baja"<<endl;
