@@ -357,13 +357,13 @@ bool modificarNivelDificultad(){
     int id, nuevaDificultad;
     cout << "Ingrese ID del tipo de Deporte para modificar la dificultad: ";
     cin >> id;
-    int pos = buscarPorIDTipo(id); //hacer BuscarporID
+    int pos = buscarPorIDTipo(id);
     if (pos==-1){
         cout << "No existe un registro con ese DNI" << endl;
         return false;
     }
     TipodeDeporte reg;
-    reg=leeRegistroTipo(pos);//hacer?
+    reg=leeRegistroTipo(pos);
 
 
     cout << "Ingrese la nueva dificultad:" << endl;
@@ -376,9 +376,6 @@ bool modificarNivelDificultad(){
     return exito;
 
 }
-
-
-
 
 int buscarPorIDTipo (int id){
 
