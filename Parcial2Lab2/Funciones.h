@@ -162,9 +162,10 @@ bool listarTodosEquipo (){ //ListarTodosEquipo
         }
 
         while (fread(&reg, sizeof(Equipos), 1, p)==1){
-            cout << "------------------------------------" << endl;
-            reg.Mostrar();
             cout << endl;
+            if (reg.getEstado()==true) reg.Mostrar();
+            cout << endl;
+            cout << "------------------------------------" << endl;
         }
         fclose(p);
         return true;
@@ -329,7 +330,7 @@ bool listarTodosTipos(){
 
         while (fread(&reg, sizeof(TipodeDeporte), 1, p)==1){
             cout << endl;
-            reg.Mostrar();
+            if (reg.getEstado()==true) reg.Mostrar();
             cout << endl;
             cout << "------------------------------------" << endl;
         }
@@ -988,7 +989,7 @@ void subMenuTiposDeDeporte(){
     case 4: if(modificarNivelDificultad()) cout <<"NIVEL MODIFICADO." << endl;
             else cout <<"ERROR AL MODIFICAR." << endl;
         break;
-    case 5: if (bajaLogica()) cout << "Registro dado de baja."<<endl;
+    case 5: if (bajaLogicaTipo()) cout << "Registro dado de baja."<<endl;
             else cout << "No se pudo dar de baja"<<endl;
         break;
 
