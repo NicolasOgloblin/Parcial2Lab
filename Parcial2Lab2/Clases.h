@@ -953,26 +953,6 @@ int ArchivoJugadores::contarRegistrosActivosJ(){
     return cuentaReg;
 }
 
-///  ----------------------------------------------------  PUNTO A  ----------------------------------------------------  ///
-/* se puede sacar. Era solo para el parcial.
-void puntoA(){
-
-    int deporte, cantJugadores=0;
-    ArchivoJugadores archi("jugadores.dat");
-    Jugadores reg;
-
-    cout<<"INGRESE UN NUMERO DE DEPORTE ";
-    cin>>deporte;
-    int cantReg=archi.contarRegistrosJ();
-    for(int i=0;i<cantReg;i++){
-        reg=archi.leerRegistroJ(i);
-        if(reg.getDeporte()==deporte){
-            cantJugadores++;
-        }
-    }
-    cout<<"CANTIDAD DE JUGADORES "<<cantJugadores<<endl;
-  }
-*/
 ///  ----------------------------------------------------  CLASS ARCHIVO EQUIPOS  ----------------------------------------------------  ///
 
 class ArchivoEquipos{
@@ -1006,8 +986,6 @@ class ArchivoEquipos{
 			fclose(p);
 			return tam/sizeof(Equipos);
 		}
-
-
 };
 
 #endif // CLASES_H_INCLUDED
