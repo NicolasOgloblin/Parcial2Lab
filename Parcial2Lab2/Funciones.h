@@ -3,6 +3,7 @@
 
 #include "Prototipos.h"
 
+
 ///  ----------------------------------------------------  CARGAR CADENA  ----------------------------------------------------  ///
 
 void cargarCadena(char *palabra, int tam){
@@ -231,6 +232,7 @@ bool modificarRegistroEquipo (){
 
             return true ;
     }
+     return false ;
 }
 
 bool eliminarRegistroEquipo(){
@@ -654,6 +656,7 @@ bool restaurarArchDeportes(){
 
 ///  ----------------------------------------------------  FUNCIONES PARA ARCHIVO JUGADORES  ----------------------------------------------------  ///
 
+///OJO CHEQUEAR ! LINEA 677
 bool agregarJugador(){
 
     Jugadores reg;
@@ -672,10 +675,11 @@ bool agregarJugador(){
         return escribio;
         }
         fclose(pJugador);
+        return false; //CHEQUEAR !!!!!!!
 
     } else return false;
 }
-
+/*
 bool agregarJugadorValidado(){
 
     Jugadores reg;
@@ -704,7 +708,7 @@ bool agregarJugadorValidado(){
         return false;
     }
 }
-
+*/
 bool listarTodos (){
 
         Jugadores reg;

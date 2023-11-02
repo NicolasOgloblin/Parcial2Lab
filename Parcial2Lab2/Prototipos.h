@@ -30,6 +30,7 @@ int BuscarEquiposPorID(int);
 void escribirRegistroEquipo(Equipos, int);
 bool modificarRegistroEquipo();
 bool eliminarRegistroEquipo();
+bool buscarEquipo(int);
 
 //Funciones para tipos de deportes
 bool agregarTipoDeporte();

@@ -2,7 +2,10 @@
 #define CLASES_H_INCLUDED
 
 #include <ctime>
+
+
 void cargarCadena(char *, int);
+//bool buscarEquipo(int);
 
 ///  ----------------------------------------------------  CLASS EQUIPOS  ----------------------------------------------------  ///
 
@@ -95,6 +98,26 @@ void Equipos::Mostrar(){
     cout << nivel << endl;
 }
 
+bool buscarEquipo(int nroEquipo){
+
+        Equipos reg;
+        FILE *p;
+        p=fopen("equipos.dat", "rb");
+        if (p==NULL){
+            cout << "Error de archivo.";
+            return false;
+        }
+
+        while (fread(&reg, sizeof reg, 1, p)==1){
+
+            if (reg.getID()==nroEquipo){
+                fclose(p);
+                return true;
+            }
+        }
+        fclose(p);
+        return false;
+}
 ///  ----------------------------------------------------  CLASS TIPO DE DEPORTE  ----------------------------------------------------  ///
 
 class TipodeDeporte {
@@ -354,7 +377,7 @@ bool buscarDeporte(int nroDeporte){
 
         while (fread(&reg, sizeof reg, 1, p)==1){
 
-            if (reg.getTipo()==nroDeporte){
+            if (reg.getID()==nroDeporte){
                 fclose(p);
                 return true;
             }
@@ -488,7 +511,7 @@ class Fecha{
         }
 
         void Cargar(){
-
+            cout << endl;
             cout<<"DIA: ";
             cin>>dia;
             setDia(dia);
@@ -502,7 +525,7 @@ class Fecha{
         }
         void CargarJugador(){
 
-
+            cout << endl;
             cout<<"DIA: ";
             cin>>dia;
             setDiaJugador(dia);
@@ -677,12 +700,12 @@ void Persona::Cargar (int d=-1){
     cout << "EMAIL: ";
     cargarCadena(email, 29);
     cout << "TELEFONO: ";
-    cargarCadena(telefono, 29);
+    cargarCadena(telefono, 29);/*
     cout << "FECHA DE NACIMIENTO: " << endl;
-    fechaNacimiento.Cargar();
+    fechaNacimiento.Cargar();*/
 }
 
-
+//SACAMOS LA FECHA DE NACIMIENTO
 void Persona::Mostrar(){
 
     cout << "DNI: ";
@@ -694,9 +717,9 @@ void Persona::Mostrar(){
     cout << "EMAIL: ";
     cout << email << endl;
     cout << "TELEFONO: ";
-    cout << telefono << endl;
+    cout << telefono << endl;/*
     cout << "FECHA DE NACIMIENTO: ";
-    fechaNacimiento.mostrarEnLinea();
+    fechaNacimiento.mostrarEnLinea();*/
 
 }
 
@@ -798,10 +821,11 @@ bool Jugadores::Cargar (int d=-1){
         setMatricula (matricula);
         estado=true;
 
-        if(buscarDeporte(deporte)==true){
+        if(buscarDeporte(deporte)==true && buscarEquipo(nroEquipo)==true){
         return true;
         }else {
-            cout << "No hay registros con ese numero de deporte." << endl;
+           if( buscarDeporte(deporte)==false) cout << "No hay registros con ese numero de deporte." << endl;
+           if( buscarEquipo(nroEquipo)==false) cout << "No hay registros con ese numero de equipo." << endl;
             return false;
     }
 }
@@ -961,12 +985,6 @@ class ArchivoEquipos{
         }
  const char *getNombre (){return nombre;}
 
-    bool agregarEquipos(ArchivoEquipos);
-    bool listarEquiposPorId ();
-    bool listarTodos ();
-    bool modificarRegistroEquipo (Equipos,int);
-    bool eliminarRegistroEquipo();
-
      Equipos leerRegistro(int pos){
 		Equipos reg;
 		reg.setEstado(false);
@@ -989,174 +1007,7 @@ class ArchivoEquipos{
 			return tam/sizeof(Equipos);
 		}
 
-    int BuscarPorID(int);
-//    Equipos leerRegistro(int);
 
 };
 
-/*
-bool ArchivoEquipos::agregarEquipos(ArchivoEquipos reg){
-
-    FILE *p;
-    p=fopen(nombre,"ab");
-    if(p==NULL){
-        return false;
-    }
-    bool escribio=fwrite(&reg,sizeof reg,1,p);
-    fclose(p);
-    return escribio;
-}
-
-Equipos ArchivoEquipos::leerRegistro (int pos){
-
-        Equipos reg ;
-        FILE *p;
-        reg.setID(-1);
-        p=fopen("equipos.dat", "rb");
-        if (p==NULL){
-            cout << "Error de archivo.";
-            return reg; //Aca reg tiene dni -1
-        }
-        fseek(p, sizeof reg*pos, 0);
-        int leyo=fread(&reg, sizeof(Equipos), 1, p);
-
-        fclose(p);
-        if(leyo==0) reg.setID(-1);
-        return reg; //si devuelve reg dni-1 es que no encontro un registro.
-}
-
-bool ArchivoEquipos::listarEquiposPorId (){
-
-        int id;
-        Equipos reg;
-        int aux=0;
-        FILE *p;
-
-        bool Estado = false;
-        cout << "Ingrese el ID del deporte: ";
-        cin >> id;
-
-        p=fopen("equipos.dat", "rb");
-        if (p==NULL){
-            cout << "Error de archivo.";
-            return false;
-        }
-
-        while (fread(&reg, sizeof(Equipos), 1, p)==1){
-            if(reg.getEstado()==false){
-                aux++;
-            }else if (reg.getEstado()==true){
-            if(reg.getID()==id){
-                cout << "------------------------------------" << endl;
-                reg.Mostrar();
-                Estado = true;
-                cout << endl;
-            }
-          }
-        }
-        fclose(p);
-        if(Estado==false && aux > 0) cout << "El Equipo fue dado de baja." << endl;
-        else if(Estado==false && aux ==0) cout << "No hay registros con ese ID." << endl;
-        return true;
-}
-
-bool ArchivoEquipos:: listarTodos (){
-
-        Equipos reg;
-        FILE *p;
-
-        p=fopen("equipos.dat", "rb");
-        if (p==NULL){
-            cout << "Error de archivo.";
-            return false;
-        }
-
-        while (fread(&reg, sizeof(Equipos), 1, p)==1){
-            cout << "------------------------------------" << endl;
-            reg.Mostrar();
-            cout << endl;
-        }
-        fclose(p);
-        return true;
-}
-
-bool ArchivoEquipos::modificarRegistroEquipo (Equipos reg, int pos){
-
-    int id;
-    cout << "Ingrese el ID del Equipo para modificar el Nombre: ";
-    cin >> id;
-     pos = BuscarPorID(id);
-    if (pos==-1){
-        cout << "No existe un registro con ese ID" << endl;
-        return false;
-    }
-    reg=leerRegistro (pos);
-    char nuevoNombre[30];
-      // Solicitar el nuevo nombre
-    cout << "Ingrese el nuevo Nombre:" << endl;
-    cin >> nuevoNombre;
-
-    reg.setNombre(nuevoNombre);
-
-
-    // Modificar el registro en el archivo
-    bool exito = modificarRegistroEquipo(reg, pos);
-
-    return exito;
-
-
-}
-
-int ArchivoEquipos:: BuscarPorID (int id){
-
-       Equipos reg;
-       FILE *p;
-        p=fopen("equipos.dat", "rb");
-        if (p==NULL){
-            cout << "Error de archivo.";
-            return -2; //si es -2 es que hubo un error.
-        }
-        int cuentaRegistros=0;
-        while (fread(&reg, sizeof (Equipos), 1, p)==1){
-
-            if (reg.getID()==id){
-                fclose(p); //siempre cierro el archivo.
-                return cuentaRegistros; //devuelvo porque encontro
-            }
-            cuentaRegistros++;
-        }
-        fclose(p);
-        return -1; //si devuelve -1 es que no encontro un registro.
-}
-
-bool ArchivoEquipos::eliminarRegistroEquipo(){
-
-    int id;
-    cout << "Ingresar el ID del Equipo a dar de baja: ";
-    cin >> id;
-    int pos = BuscarPorID(id);
-    if (pos == -1) {
-        cout << "No existe un registro con ese ID" << endl;
-        return false;
-    }
-
-    FILE *p = fopen("equipos.dat", "rb+");
-    if (p == NULL) {
-        cout << "Error de archivo." << endl;
-        return false;
-    }
-
-    Equipos reg;
-    fseek(p, pos * sizeof(Equipos), 0);
-    fread(&reg, sizeof(Equipos), 1, p);
-    reg.setEstado(false);
-
-    fseek(p, pos * sizeof(Equipos), 0);
-    bool escribio = fwrite(&reg, sizeof(Equipos), 1, p);
-
-    fclose(p);
-    return escribio;
-}
-
-*/
 #endif // CLASES_H_INCLUDED
