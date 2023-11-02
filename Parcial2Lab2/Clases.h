@@ -42,7 +42,6 @@ bool getEstado(){return estado ;}
     void Mostrar();
     void contarregistrosEquipos();
 
-
 int contarRegistrosEquipos() {
         FILE* p = fopen("equipos.dat", "rb");
 
@@ -93,11 +92,8 @@ void Equipos::Mostrar(){
     cout <<"NOMBRE: ";
     cout << nombre << endl;
     cout <<"NIVEL: ";
-    cout << nivel << endl;}
-/*
-void Equipos::contarregistrosEquipos(){ //vreo que hay que eliminarla. Era para comprobar que compile declarando un reg de Equipo.
-    Equipos reg;
-}*/
+    cout << nivel << endl;
+}
 
 ///  ----------------------------------------------------  CLASS TIPO DE DEPORTE  ----------------------------------------------------  ///
 
@@ -400,6 +396,28 @@ class archivoTipodeDeporte{
     bool listarRegistros();
     bool buscarPorIDTipo(int);
 
+    TipodeDeporte leerRegistro(int pos){
+		TipodeDeporte reg;
+		reg.setEstado(false);
+		FILE *p;
+		p=fopen(nombre, "rb");
+		if(p==NULL) return reg;
+		fseek(p, sizeof reg*pos,0);
+		fread(&reg, sizeof reg,1, p);
+		fclose(p);
+		return reg;
+    }
+
+    int contarRegistros(){
+			FILE *p;
+			p=fopen(nombre, "rb");
+			if(p==NULL) return -1;
+			fseek(p, 0,2);
+			int tam=ftell(p);
+			fclose(p);
+			return tam/sizeof(TipodeDeporte);
+		}
+
     bool agregaRegistro(TipodeDeporte reg){
          FILE *p=fopen(nombre, "ab");
         if(p==NULL){
@@ -436,7 +454,6 @@ bool archivoTipodeDeporte::buscarPorIDTipo(int id){
         return false;
 }
 
-//haciendo
 bool archivoTipodeDeporte::listarRegistros(){
 
         TipodeDeporte reg;
@@ -485,16 +502,18 @@ class Fecha{
         }
         void CargarJugador(){
 
-            cout<<"ANIO: ";
-            cin>>anio;
-            setAnioJugador(anio);
 
             cout<<"DIA: ";
             cin>>dia;
             setDiaJugador(dia);
+
             cout<<"MES: ";
             cin>>mes;
             setMesJugador(mes);
+
+            cout<<"ANIO: ";
+            cin>>anio;
+            setAnioJugador(anio);
 
         }
 
@@ -760,16 +779,13 @@ bool Jugadores::Cargar (int d=-1){
 
         int dni=d;
 
-        cout << "ID DEPORTE (numero entre 1 y 10) : ";
-        cin >> deporte;
-
-        if(buscarDeporte(deporte)==true){
-
         Persona::Cargar(dni);
         cout << "CLAUSTRO (1: docente; 2 alumno; 3 no docente; 4 graduado): ";
         cin >> claustro;
         setClaustro(claustro);
         //aca seteamos el nro de deporte ingrersado antes de la validacion.
+        cout << "ID DEPORTE (numero entre 1 y 10) : ";
+        cin >> deporte;
         setDeporte (deporte);
         cout << "NUMERO DE EQUIPO: ";
         cin >> nroEquipo;
@@ -781,6 +797,8 @@ bool Jugadores::Cargar (int d=-1){
         cin >> matricula;
         setMatricula (matricula);
         estado=true;
+
+        if(buscarDeporte(deporte)==true){
         return true;
         }else {
             cout << "No hay registros con ese numero de deporte." << endl;
@@ -949,8 +967,30 @@ class ArchivoEquipos{
     bool modificarRegistroEquipo (Equipos,int);
     bool eliminarRegistroEquipo();
 
+     Equipos leerRegistro(int pos){
+		Equipos reg;
+		reg.setEstado(false);
+		FILE *p;
+		p=fopen(nombre, "rb");
+		if(p==NULL) return reg;
+		fseek(p, sizeof reg*pos,0);
+		fread(&reg, sizeof reg,1, p);
+		fclose(p);
+		return reg;
+	}
+
+    int contarRegistros(){
+			FILE *p;
+			p=fopen(nombre, "rb");
+			if(p==NULL) return -1;
+			fseek(p, 0,2);
+			int tam=ftell(p);
+			fclose(p);
+			return tam/sizeof(Equipos);
+		}
+
     int BuscarPorID(int);
-    Equipos leerRegistro(int);
+//    Equipos leerRegistro(int);
 
 };
 

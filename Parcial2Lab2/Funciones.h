@@ -230,7 +230,6 @@ bool modificarRegistroEquipo (){
             escribirRegistroEquipo(reg, pos);
 
             return true ;
-
     }
 }
 
@@ -665,7 +664,7 @@ bool agregarJugador(){
             cout << "Error de archivo.";
             return false;
         }
-        reg.Cargar();
+       if(reg.Cargar()){
         int pos=buscarPorDni(reg.getDni());
         if(pos==-1){
             bool escribio = fwrite(&reg, sizeof(Jugadores), 1, pJugador);
@@ -674,7 +673,7 @@ bool agregarJugador(){
         }
         fclose(pJugador);
 
-        return false;
+    } else return false;
 }
 
 bool agregarJugadorValidado(){
@@ -1026,7 +1025,7 @@ void subMenuJugadores(){
 
     switch(opc){
 
-    case 1: if(agregarJugadorValidado()) cout <<"REGISTRO AGREGADO"<<endl;
+    case 1: if(agregarJugador()) cout <<"REGISTRO AGREGADO"<<endl; //cambio para agrergar
             else cout <<"NO SE PUDO AGREGAR EL REGISTRO"<<endl;
         break;
     case 2: if(!listarPorDni()) cout <<"ERROR AL LEER EL ARCHIVO."<<endl;
